@@ -1,0 +1,23 @@
+{
+  "name": "toasty-js",
+  "version": "1.0.0",
+  "description": "Toast your website",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w"
+  },
+  "keywords": [
+    "mk",
+    "toasty",
+    "mortal kombat"
+  ],
+  "author": "Daniel MF <echo.dmf@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^1.12.4",
+    "rollup-plugin-typescript": "^1.0.1",
+    "tslib": "^1.9.3",
+    "typescript": "^3.4.5"
+  }
+}
