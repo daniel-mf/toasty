@@ -7,6 +7,9 @@
     <script src="mk/index.js"></script>
     <script type="text/javascript">
         MK.toastDocument(.5); //50% chance
+
+        //Toasting at click
+        const dan = new MK.DanForden();
     </script>
 
 </head>
@@ -17,7 +20,14 @@
 
 <p>Click at any element or the button...</p>
 
-<button onclick="console.log('click awaits for the toasting');">Toasy!</button>
+<p>
+    <button onclick="console.log('click awaits for the toasting');">console.log(...)</button>
+</p>
+
+<h3>Instant toasting!</h3>
+<p>
+    <button data-is-toasted onclick="dan.toast()">Toast it</button>
+</p>
 
 </body>
 </html>

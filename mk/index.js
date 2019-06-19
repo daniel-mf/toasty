@@ -115,7 +115,6 @@
             });
         }
     }
-    //# sourceMappingURL=Character.js.map
 
     function holdFor(ms) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -178,7 +177,6 @@
             });
         }
     }
-    //# sourceMappingURL=SurprisingBuddy.js.map
 
     class DanForden extends SurprisingBuddy {
         constructor() {
@@ -195,51 +193,80 @@
             });
         }
     }
-    //# sourceMappingURL=DanForden.js.map
 
-    function toastDocument(percent = .06) {
-        let dan = null, enabled = true, busy = false;
-        const observe = () => {
-            document.body.addEventListener('click', e => {
-                if (!enabled) {
-                    enabled = true;
-                }
-                else {
-                    const element = e.target;
-                    if (element instanceof HTMLElement
-                        && Math.random() <= percent) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.stopImmediatePropagation();
-                        if (!dan) {
-                            dan = new DanForden();
-                        }
-                        if (!busy) {
-                            busy = true;
-                            const finish = () => {
-                                busy = false;
-                                enabled = false;
-                                element.click();
-                            };
-                            dan.toast()
-                                .then(finish)
-                                .catch(finish);
-                        }
-                    }
-                }
-            }, true);
-        };
-        if (document.body) {
-            observe();
+    function objectIsToastable(obj) {
+        return obj instanceof HTMLElement && !obj.hasAttribute('data-is-toasted');
+    }
+    class Toastable {
+        constructor(element, chance = 1) {
+            this.forden = null;
+            this.enabled = true;
+            this.busy = false;
+            this.toaster = event => this.clicked(event);
+            this.element = element;
+            this.chance = chance;
         }
-        else {
-            window.addEventListener('DOMContentLoaded', observe);
+        set element(element) {
+            if (this._element) {
+                this._element.removeEventListener('click', this.toaster);
+            }
+            this._element = element;
+            if (element) {
+                this._element.addEventListener('click', this.toaster, true);
+            }
+        }
+        clicked(event) {
+            if (!this.enabled) {
+                this.enabled = true;
+                return true;
+            }
+            else {
+                if (objectIsToastable(event.target) && Math.random() <= this.chance) {
+                    const element = event.target;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    if (!this.busy) {
+                        this.busy = true;
+                        const finish = () => {
+                            this.busy = false;
+                            this.enabled = false;
+                            element.click();
+                        };
+                        this.dan.toast()
+                            .then(finish)
+                            .catch(finish);
+                    }
+                    return false;
+                }
+            }
+        }
+        get dan() {
+            if (!this.forden) {
+                this.forden = new DanForden();
+            }
+            return this.forden;
+        }
+        dispose() {
+            this.element = null;
+            this.forden = null;
         }
     }
 
-    //# sourceMappingURL=main.js.map
+    function init(chance) {
+        new Toastable(document.body, chance);
+    }
+    function toastDocument(chance = .06) {
+        if (document.body) {
+            init(chance);
+        }
+        else {
+            window.addEventListener('DOMContentLoaded', () => init(chance));
+        }
+    }
 
     exports.DanForden = DanForden;
+    exports.Toastable = Toastable;
     exports.toastDocument = toastDocument;
 
     Object.defineProperty(exports, '__esModule', { value: true });

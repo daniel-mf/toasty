@@ -1,56 +1,19 @@
-import DanForden from "./DanForden";
+import Toastable from "./Toastable";
+
+function init(chance: number) {
+    new Toastable(document.body, chance);
+}
 
 /**
  * Random toasty! on document.body click!
- * @param percent Defaults to 60% change per click
+ * @param chance Defaults to 6% change per click
  */
-function toastDocument(percent = .06) {
-
-    let dan: DanForden = null,
-        enabled = true,
-        busy = false;
-
-    const observe = () => {
-        document.body.addEventListener('click', e => {
-            if (!enabled) {
-                enabled = true;
-            } else {
-                const element = e.target;
-
-                if (element instanceof HTMLElement
-                    && Math.random() <= percent) {
-
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-
-                    if (!dan) {
-                        dan = new DanForden();
-                    }
-
-                    if (!busy) {
-                        busy = true;
-                        const finish = () => {
-                            busy = false;
-                            enabled = false;
-                            element.click();
-                        };
-                        dan.toast()
-                            .then(finish)
-                            .catch(finish);
-                    }
-                }
-            }
-        }, true);
-
-    };
-
+function toastDocument(chance = .06) {
     if (document.body) {
-        observe();
+        init(chance);
     } else {
-        window.addEventListener('DOMContentLoaded', observe);
+        window.addEventListener('DOMContentLoaded', () => init(chance));
     }
-
 }
 
 export default toastDocument;
