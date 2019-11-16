@@ -68,6 +68,7 @@ abstract class Character {
         this.element.style.position = 'fixed';
         this.element.style.width = '25vmin';
         this.element.style.visibility = 'hidden';
+        this.element.style.pointerEvents = 'none';
     }
 
     protected appendToDocument() {
