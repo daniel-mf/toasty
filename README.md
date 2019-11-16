@@ -5,10 +5,10 @@ Make Dan Forden randomly pop up when your users click anywhere.
 
 ### Usage ###
 
-Download the `./mk` folder and include the `index.js` in your HTML.
+Include `dist/index.js` in your HTML.
 
 ```html
-<script type="text/javascript" src="mk/index.js"></script>
+<script type="text/javascript" src="dist/index.js" defer></script>
 ```
 
 Add `toastDocument` call for random toasting at user click!
