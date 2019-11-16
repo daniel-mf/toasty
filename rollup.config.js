@@ -1,12 +1,14 @@
 import typescript from 'rollup-plugin-typescript';
+import {terser} from "rollup-plugin-terser";
 
 export default {
     input: './src/main.ts',
     plugins: [
-        typescript()
+        typescript(),
+        terser()
     ],
     output: {
-        file: 'mk/index.js',
+        file: 'dist/index.js',
         name: 'MK',
         format: 'umd'
     }

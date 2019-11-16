@@ -2,7 +2,7 @@ import {ElementPosition} from "./Positioning";
 
 abstract class Character {
 
-    protected readonly abstract picturePath: string;
+    protected readonly abstract pictureData: string;
     private _element: HTMLImageElement;
 
     private loadFinished = false;
@@ -45,7 +45,7 @@ abstract class Character {
     protected buildElement<T extends HTMLElement>(): T {
         const img = document.createElement('img');
 
-        img.src = this.picturePath;
+        img.src = this.pictureData;
 
         img.addEventListener('load', () => {
             this.loadFinished = true;
@@ -105,7 +105,7 @@ abstract class Character {
             }, false);
         });
 
-        speaker.src = `mk/${audio}.mp3`;
+        speaker.src = audio;
         speaker.load();
 
         return future;
